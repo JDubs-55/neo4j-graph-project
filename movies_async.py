@@ -10,21 +10,24 @@ from neo4j import (
     AsyncGraphDatabase,
 )
 from starlette.responses import FileResponse
+import config
+
 
 
 PATH = os.path.dirname(os.path.abspath(__file__))
 
 app = FastAPI()
 
-url = os.getenv("NEO4J_URI", "neo4j+s://demo.neo4jlabs.com")
-username = os.getenv("NEO4J_USER", "movies")
-password = os.getenv("NEO4J_PASSWORD", "movies")
-neo4j_version = os.getenv("NEO4J_VERSION", "4")
-database = os.getenv("NEO4J_DATABASE", "movies")
+url = os.getenv("NEO4J_URI", config.connectionURI)
+username = os.getenv("NEO4J_USER", config.username)
+password = os.getenv("NEO4J_PASSWORD", config.password)
+neo4j_version = os.getenv("NEO4J_VERSION", config.neo4j_ver)
+database = os.getenv("NEO4J_DATABASE", config.database_name)
 
 port = os.getenv("PORT", 8080)
 
 driver = AsyncGraphDatabase.driver(url, auth=basic_auth(username, password))
+
 
 
 @asynccontextmanager
